@@ -3,12 +3,14 @@ import "express-async-errors";
 import express, { Express } from "express";
 import cors from "cors";
 
-import { loadEnv, connectDb, disconnectDB } from "@/config";
+import { loadEnv, connectDb, disconnectDB } from "./config";
 
 loadEnv();
 
-import { handleApplicationErrors } from "@/middlewares";
-import { usersRouter, authenticationRouter, eventsRouter, enrollmentsRouter } from "@/routers";
+import { handleApplicationErrors } from "./middlewares";
+import { usersRouter, authenticationRouter, eventsRouter, enrollmentsRouter } from "./routers";
+import { paymentsRouter } from "./routers/payment-router";
+import { ticketsRouter } from "./routers/tickets-router";
 
 const app = express();
 app
@@ -19,6 +21,8 @@ app
   .use("/auth", authenticationRouter)
   .use("/event", eventsRouter)
   .use("/enrollments", enrollmentsRouter)
+  .use("/payments", paymentsRouter)
+  .use("/tickets", ticketsRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
